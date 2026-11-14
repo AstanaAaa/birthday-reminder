@@ -3,7 +3,7 @@
  * 策略：缓存优先 + 网络回填。第一次打开后，断网也能用。
  * 改了文件记得把 VERSION 加一，否则用户会一直看到旧版本。
  */
-const VERSION = 'birthday-reminder-v1';
+const VERSION = 'birthday-reminder-v2';
 
 const ASSETS = [
   './',
