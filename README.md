@@ -51,7 +51,7 @@ v0.1.1 的 SHA-256：`91AC2C630AA40ACF2B6F29F3AC600806D0529B630360A8332098E4B6CA
 
 安卓装 APK，**iPhone 用网页版**——不装任何 App，浏览器打开就行：
 
-👉 **https://astanaa.github.io/birthday-reminder/**
+👉 **https://astanaaaa.github.io/birthday-reminder/**
 
 用法：录入好友 → 点「导入到日历」→ 下载一个 `.ics` 文件 → 打开它 → 系统问「要把 3 个日程添加到日历吗」→ 点全部添加。
 
