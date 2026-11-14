@@ -108,14 +108,19 @@ app/src/main/java/com/xd/birthdayreminder/
 
 ## 实现上的两个坑
 
-**1. 全天事件的时间基准是 UTC 零点**
+**1. 全天事件的时间基准是 UTC 零点，提醒分钟数要取反**
 
-Android 的全天事件 `DTSTART` 固定为 UTC 00:00。如果想让提醒在本地早上 9 点响，`MINUTES` 不能写 0，得减去时区偏移：
+Android 的全天事件 `DTSTART` 固定为 UTC 00:00，而 `Reminders.MINUTES` 的语义是「事件开始**之前**多少分钟」。
+
+想让提醒落在本地 9:00，得先算本地 9:00 比 UTC 零点**晚**多少分钟，然后取负数（负数表示「开始之后」）：
 
 ```kotlin
 val offsetMinutes = ZoneId.systemDefault().rules.getOffset(Instant.now()).totalSeconds / 60
-val minutes = (9 * 60 - offsetMinutes).coerceAtLeast(0)  // 北京：540 - 480 = 60
+// 北京 UTC+8：本地 9:00 = UTC 01:00，比 UTC 零点晚 60 分钟 → 写 -60
+val minutes = -(9 * 60 - offsetMinutes)
 ```
+
+> 这里踩过坑：一开始写成 `+(9 * 60 - offsetMinutes)`，结果提醒落在前一天 23:00，差了整整一天。真机日历截图里一眼就能看出来。
 
 **2. 提醒日期已经过去时要顺延到明年**
 
