@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 桌面图标前景：一个小蛋糕。108x108 画布，内容集中在中间 72x72 安全区 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- 盘子 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M30,74 h48 v3 h-48 z" />
+
+    <!-- 蛋糕主体 -->
+    <path
+        android:fillColor="#FFF3E0"
+        android:pathData="M34,54 h40 v20 h-40 z" />
+
+    <!-- 奶油层 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M34,54 h40 v6 h-40 z" />
+
+    <!-- 蜡烛 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M52.5,40 h3 v14 h-3 z" />
+
+    <!-- 火苗 -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M54,33 m-3.2,0 a3.2,4.2 0 1,0 6.4,0 a3.2,4.2 0 1,0 -6.4,0" />
+</vector>

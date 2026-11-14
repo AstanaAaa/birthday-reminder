@@ -1,0 +1,31 @@
+# ===== 本地环境，绝对不能提交 =====
+# 里面写着你自己电脑上 Android SDK 的路径，别人拉了也用不了
+local.properties
+
+# ===== 编译产物 =====
+*.apk
+*.aab
+build/
+app/build/
+captures/
+.cxx/
+.externalNativeBuild/
+
+# ===== IDE 配置 =====
+.idea/
+*.iml
+*.hprof
+
+# ===== Gradle 缓存 =====
+.gradle/
+
+# ===== 签名文件，泄露 = 别人能冒充你发版 =====
+*.keystore
+*.jks
+*.p12
+signing.properties
+
+# ===== 系统杂项 =====
+.DS_Store
+Thumbs.db
+desktop.ini
