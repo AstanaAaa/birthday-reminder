@@ -47,6 +47,24 @@ Get-FileHash .\BirthdayReminder.apk -Algorithm SHA256
 
 v0.1.1 的 SHA-256：`91AC2C630AA40ACF2B6F29F3AC600806D0529B630360A8332098E4B6CA66B820`
 
+## 网页版（iPhone 也能用）
+
+安卓装 APK，**iPhone 用网页版**——不装任何 App，浏览器打开就行：
+
+👉 **https://astanaa.github.io/birthday-reminder/**
+
+用法：录入好友 → 点「导入到日历」→ 下载一个 `.ics` 文件 → 打开它 → 系统问「要把 3 个日程添加到日历吗」→ 点全部添加。
+
+导入之后每年都会自动提醒，和装 App 效果一样。也可以「添加到主屏幕」，图标和 App 几乎没区别。
+
+<p align="center">
+  <img src="screenshots/web-list.png" width="240" />
+</p>
+
+**为什么 iOS 不用写原生 App**：iOS 的日历原生支持导入 `.ics` 标准格式，里面可以写「每年重复」和「提前多久提醒」。所以网页只负责生成正确的文件，剩下的交给系统日历——不需要 Xcode，不需要开发者账号，也不用过 App Store 审核。
+
+> 网页版数据存在浏览器本地（localStorage），和安卓 App 各自独立，互不影响。
+
 ## 为什么做这个
 
 我自己经常忘事。朋友生日前一天才想起来，礼物来不及买，只能发个红包糊弄过去。

@@ -1,0 +1,338 @@
+/* 配色和安卓版保持一致：珊瑚橘 + 奶油底 */
+:root {
+  --primary: #E8623C;
+  --primary-soft: #FFE0D6;
+  --bg: #FFF8F0;
+  --surface: #FFFBF6;
+  --surface-variant: #F5E9DF;
+  --text: #2E2521;
+  --text-dim: #6B5A4E;
+  --border: #EAD9CC;
+  --danger: #B3261E;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+               "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px 10px;
+  padding-top: calc(14px + env(safe-area-inset-top));
+  background: linear-gradient(var(--bg) 78%, rgba(255, 248, 240, 0));
+}
+
+.topbar h1 {
+  flex: 1;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* 左边没有返回按钮时，右边按钮仍要占位，保证标题居中 */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.icon-btn:active { background: var(--surface-variant); }
+.icon-btn[hidden] { display: block; visibility: hidden; }
+
+/* ---------- 列表 ---------- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 16px 120px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 8px;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: 0 1px 2px rgba(46, 37, 33, 0.05);
+}
+
+.card.soon {
+  background: var(--primary-soft);
+  box-shadow: 0 2px 8px rgba(232, 98, 60, 0.14);
+}
+
+.card-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  user-select: none;
+}
+
+.who { flex: 1; min-width: 0; }
+.who .name {
+  font-size: 16px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.who .meta {
+  font-size: 13px;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.badge {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--surface-variant);
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.badge.today { background: var(--primary); color: #fff; }
+.badge.soon { background: rgba(232, 98, 60, 0.16); color: var(--primary); }
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(46, 37, 33, 0.07);
+}
+
+.card-actions button {
+  flex: 1;
+  padding: 9px 8px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  background: var(--surface-variant);
+  color: var(--text);
+  transition: transform 0.08s, opacity 0.15s;
+}
+.card-actions button:active { transform: scale(0.97); }
+.card-actions .primary { background: var(--primary); color: #fff; font-weight: 600; }
+.card-actions .danger { background: transparent; color: var(--danger); flex: 0 0 auto; padding-inline: 14px; }
+
+/* ---------- 空状态 ---------- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 56px 32px;
+  min-height: 62dvh;
+}
+.empty .emoji { font-size: 64px; line-height: 1; }
+.empty h2 { margin: 20px 0 8px; font-size: 22px; }
+.empty p { margin: 0 0 26px; color: var(--text-dim); font-size: 15px; }
+
+/* ---------- 表单 ---------- */
+.form { padding: 8px 16px 120px; display: flex; flex-direction: column; gap: 16px; }
+
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field > label { font-size: 14px; font-weight: 600; color: var(--text-dim); }
+
+input[type="text"], input[type="number"], select {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 16px;           /* 16px 以下 iOS 会自动放大页面 */
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus { border-color: var(--primary); }
+
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; }
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface-variant);
+  border-radius: 12px;
+}
+.switch-row .label { flex: 1; font-size: 15px; }
+.switch-row .hint { font-size: 12.5px; color: var(--text-dim); margin-top: 2px; }
+
+.switch { position: relative; width: 50px; height: 30px; flex: 0 0 50px; }
+.switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+.switch .track {
+  position: absolute;
+  inset: 0;
+  background: #D6C8BC;
+  border-radius: 999px;
+  transition: background 0.18s;
+}
+.switch .track::after {
+  content: "";
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 24px; height: 24px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.18s;
+}
+.switch input:checked + .track { background: var(--primary); }
+.switch input:checked + .track::after { transform: translateX(20px); }
+
+.btn {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.08s, opacity 0.15s;
+}
+.btn:active { transform: scale(0.985); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:disabled { background: #E0D4C9; color: #9C8A7D; cursor: not-allowed; }
+.btn-ghost { background: var(--surface-variant); color: var(--text); }
+.btn-small { padding: 9px 14px; font-size: 14px; border-radius: 10px; }
+
+.note {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ---------- 弹层 ---------- */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(46, 37, 33, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  animation: fade 0.18s ease;
+}
+.sheet-backdrop[hidden] { display: none; }
+
+.sheet {
+  width: 100%;
+  max-width: 520px;
+  background: var(--surface);
+  border-radius: 22px 22px 0 0;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+  animation: up 0.22s ease;
+}
+.sheet h2 { margin: 0 0 14px; font-size: 19px; }
+.sheet .steps { margin: 0 0 14px; padding-left: 20px; font-size: 14.5px; line-height: 1.75; }
+.sheet .steps code { background: var(--surface-variant); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+.sheet-note { font-size: 13px; color: var(--text-dim); margin: 0 0 18px; }
+.sheet .btn { width: 100%; }
+
+@keyframes fade { from { opacity: 0; } }
+@keyframes up { from { transform: translateY(100%); } }
+
+/* ---------- 悬浮按钮 ---------- */
+.fab {
+  position: fixed;
+  right: max(16px, calc(50vw - 260px + 16px));
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(232, 98, 60, 0.38);
+  transition: transform 0.1s;
+}
+.fab:active { transform: scale(0.94); }
+
+/* 大屏幕上把悬浮按钮收进内容区，别飘到屏幕边上 */
+@media (min-width: 560px) {
+  .fab { right: calc(50vw - 260px + 16px); }
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(90px + env(safe-area-inset-bottom));
+  transform: translateX(-50%) translateY(20px);
+  background: #2E2521;
+  color: #fff;
+  padding: 11px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s, transform 0.22s;
+  z-index: 200;
+  max-width: 88vw;
+  text-align: center;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

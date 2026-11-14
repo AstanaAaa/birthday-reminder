@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>生日提醒</title>
+  <meta name="description" content="录入好友生日，一键写进手机日历，提前一周提醒买礼物。">
+  <meta name="theme-color" content="#FFF8F0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="生日提醒">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- 顶部标题栏 -->
+    <header class="topbar">
+      <button class="icon-btn" id="backBtn" hidden aria-label="返回">←</button>
+      <h1 id="title">生日提醒</h1>
+      <button class="icon-btn" id="addBtn" aria-label="添加好友">＋</button>
+    </header>
+
+    <!-- 页面内容由 app.js 渲染 -->
+    <main id="view"></main>
+  </div>
+
+  <!-- 导入说明弹层 -->
+  <div class="sheet-backdrop" id="sheet" hidden>
+    <div class="sheet" role="dialog" aria-modal="true">
+      <h2 id="sheetTitle">日历文件已下载</h2>
+      <ol class="steps">
+        <li>打开手机的「文件」或「下载」列表，找到刚才的 <code>.ics</code> 文件，点一下</li>
+        <li>系统会问「要把这 3 个日程添加到日历吗」</li>
+        <li>点「全部添加」——之后每年都会自动提醒</li>
+      </ol>
+      <p class="sheet-note">
+        如果点击后什么都没发生，试试在文件上长按，选「共享 → 日历」。
+      </p>
+      <button class="btn btn-primary" id="sheetClose">知道了</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
