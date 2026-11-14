@@ -84,11 +84,14 @@ fun FriendListScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = onAdd,
-                icon = { Icon(Icons.Rounded.Add, contentDescription = null) },
-                text = { Text("添加好友") },
-            )
+            // 列表为空时，页面中央已经有一个大大的「添加好友」，右下角再来一个就重复了
+            if (friends.isNotEmpty()) {
+                ExtendedFloatingActionButton(
+                    onClick = onAdd,
+                    icon = { Icon(Icons.Rounded.Add, contentDescription = null) },
+                    text = { Text("添加好友") },
+                )
+            }
         },
     ) { innerPadding ->
 

@@ -4,6 +4,19 @@
 
 纯本地运行，不联网、不上传、不需要注册账号。
 
+## 界面预览
+
+<p align="center">
+  <img src="screenshots/empty.png" width="200" />
+  <img src="screenshots/add.png" width="200" />
+  <img src="screenshots/home.png" width="200" />
+  <img src="screenshots/calendar.png" width="200" />
+</p>
+
+<p align="center">
+  <sub>空状态 → 添加好友 → 生日列表 → 写进手机系统日历</sub>
+</p>
+
 ## 下载安装
 
 **不想编译？直接下载安装包：**

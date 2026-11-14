@@ -25,8 +25,8 @@ android {
         // 最低支持 Android 8.0；26 以上才能直接用 java.time 日期 API
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "0.1.1"
     }
 
     signingConfigs {

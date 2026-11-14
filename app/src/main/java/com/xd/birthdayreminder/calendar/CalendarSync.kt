@@ -170,21 +170,35 @@ object CalendarSync {
 
     /**
      * 给日程加闹钟。
-     * 全天事件以 UTC 零点为起点，想本地 9 点响，就要往前/后挪时区那么多分钟。
-     * 比如北京时间 UTC+8：540 - 480 = 60 分钟，即 UTC 1:00 = 北京 9:00。
+     *
+     * 全天事件的 DTSTART 固定是「UTC 零点」，而提醒的 MINUTES 语义是「事件开始前多少分钟」。
+     * 想让提醒落在本地 9:00，要先算本地 9:00 距离 UTC 零点多少分钟：
+     *
+     *   北京 UTC+8：本地 9:00 = UTC 01:00，比 UTC 零点「晚」60 分钟
+     *   → MINUTES 必须写 -60（负数 = 事件开始之后），而不是 +60
+     *
+     * 写成 +60 的话，提醒会落在 UTC 前一天 23:00 = 北京前一天早上 7:00，整整差了一天。
      */
     private fun insertReminder(context: Context, eventId: Long) {
         val offsetMinutes = ZoneId.systemDefault().rules
             .getOffset(Instant.now()).totalSeconds / 60
-        val minutes = (REMINDER_HOUR * 60 - offsetMinutes).coerceAtLeast(0)
+        val minutesAfterUtcMidnight = REMINDER_HOUR * 60 - offsetMinutes
+        val minutes = -minutesAfterUtcMidnight
 
+        // 极少数机型的日历不接受负值（"开始之后"的提醒），退回到 UTC 零点（北京时间 8:00）
+        if (!insertReminderRow(context, eventId, minutes)) {
+            insertReminderRow(context, eventId, 0)
+        }
+    }
+
+    private fun insertReminderRow(context: Context, eventId: Long, minutes: Int): Boolean {
         val values = ContentValues().apply {
             put(CalendarContract.Reminders.EVENT_ID, eventId)
             put(CalendarContract.Reminders.MINUTES, minutes)
             put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT)
         }
-        runCatching {
-            context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, values)
-        }
+        return runCatching {
+            context.contentResolver.insert(CalendarContract.Reminders.CONTENT_URI, values) != null
+        }.getOrDefault(false)
     }
 }
