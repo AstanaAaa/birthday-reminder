@@ -31,3 +31,6 @@ keystore.properties
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# 本地自动化脚本（含仓库名和 token 参数，不对外）
+upload-release.ps1

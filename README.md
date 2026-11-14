@@ -19,13 +19,33 @@
 
 ## 下载安装
 
-**不想编译？直接下载安装包：**
+**不想编译？直接下载 APK：**
 
-👉 [**前往 Releases 下载最新版 APK**](https://github.com/AstanaAaa/birthday-reminder/releases/latest)
+👉 [**点此下载最新版**](https://github.com/AstanaAaa/birthday-reminder/releases/latest/download/BirthdayReminder.apk) （约 9.9 MB，点开即下载）
+
+> 这个链接**永久有效**：每次发布新版本，只要附件名保持 `BirthdayReminder.apk`，同一个链接就会指向最新版。
+
+**GitHub 下载慢的话**，在链接前面加一个加速镜像域名：
+
+```
+https://ghfast.top/https://github.com/AstanaAaa/birthday-reminder/releases/latest/download/BirthdayReminder.apk
+```
+
+备用镜像：`https://gh-proxy.com/` 、`https://ghproxy.net/`（用法相同，把官方地址整串拼在后面）
+
+**安装说明**
 
 - 要求 Android 8.0（API 26）及以上
 - 首次安装需要在手机上允许「安装未知来源应用」
 - 如果之前装过其他签名的版本，需要先卸载
+
+**校验下载的文件**（可选，确认没被篡改）
+
+```powershell
+Get-FileHash .\BirthdayReminder.apk -Algorithm SHA256
+```
+
+v0.1.1 的 SHA-256：`91AC2C630AA40ACF2B6F29F3AC600806D0529B630360A8332098E4B6CA66B820`
 
 ## 为什么做这个
 
