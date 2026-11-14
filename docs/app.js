@@ -75,10 +75,20 @@ function toast(message) {
   toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
 }
 
-/** 触发浏览器下载 */
+/** 最近一次生成的文件，分享按钮要用 */
+let lastFile = null;
+
+/**
+ * 下载 .ics 文件。
+ *
+ * 文件名一定要用纯英文：iOS 对中文文件名的下载处理不稳定，
+ * 万一扩展名 `.ics` 丢了，系统就彻底认不出这是日历文件，也不会给「添加到日历」的选项。
+ */
 function downloadFile(filename, text) {
-  const blob = new Blob([text], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
+  const file = new File([text], filename, { type: 'text/calendar' });
+  lastFile = file;
+
+  const url = URL.createObjectURL(file);
   const a = document.createElement('a');
   a.href = url;
   a.download = filename;
@@ -91,8 +101,12 @@ function downloadFile(filename, text) {
   }, 1500);
 }
 
-function safeFilename(text) {
-  return String(text).replace(/[\\/:*?"<>|]/g, '').trim() || '好友';
+/** 生成纯英文、能一眼认出来的文件名，例如 birthday-1117.ics */
+function icsFilename(friend) {
+  if (!friend) return 'birthday-reminder.ics';
+  const ascii = String(friend.name ?? '').replace(/[^A-Za-z0-9_-]/g, '');
+  const mmdd = `${String(friend.month).padStart(2, '0')}${String(friend.day).padStart(2, '0')}`;
+  return `birthday-${ascii || mmdd}.ics`;
 }
 
 /* ================================================================== *
@@ -336,15 +350,17 @@ viewEl.addEventListener('click', (event) => {
     case 'import': {
       const target = friends.find((f) => f.id === Number(id));
       if (!target) break;
-      downloadFile(`生日提醒-${safeFilename(target.name)}.ics`, buildIcs([target]));
-      showSheet(`已生成「${target.name}」的日历文件`);
+      const filename = icsFilename(target);
+      downloadFile(filename, buildIcs([target]));
+      showSheet(`已生成「${target.name}」的日历文件`, filename);
       break;
     }
 
     case 'import-all': {
       if (!friends.length) break;
-      downloadFile('生日提醒-全部.ics', buildIcs(sortedFriends()));
-      showSheet(`已生成全部 ${friends.length} 位好友的日历文件`);
+      const filename = 'birthday-all.ics';
+      downloadFile(filename, buildIcs(sortedFriends()));
+      showSheet(`已生成全部 ${friends.length} 位好友的日历文件`, filename);
       break;
     }
   }
@@ -368,11 +384,57 @@ addBtn.addEventListener('click', () => {
 
 const sheet = document.getElementById('sheet');
 const sheetTitle = document.getElementById('sheetTitle');
+const sheetFile = document.getElementById('sheetFile');
+const sheetSteps = document.getElementById('sheetSteps');
+const sheetNote = document.getElementById('sheetNote');
+const sheetShare = document.getElementById('sheetShare');
 
-function showSheet(title) {
+function isIOS() {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent)
+    || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+
+function showSheet(title, filename) {
   sheetTitle.textContent = title;
+  sheetFile.innerHTML = `文件名：<code>${esc(filename)}</code>`;
+
+  if (isIOS()) {
+    sheetSteps.innerHTML = `
+      <li>打开 <b>文件</b> App →「浏览」→「下载项」</li>
+      <li>找到 <code>${esc(filename)}</code>，<b>点一下</b>（不用长按，也不用共享）</li>
+      <li>系统会显示日程预览，点右上角「<b>添加</b>」→「全部添加」</li>`;
+    sheetNote.textContent =
+      'iOS 的共享菜单里没有「日历」，这是系统设计——加日历只能靠点开文件。'
+      + '如果点开没反应，用下面的按钮把文件发到「邮件」或「存储到文件」，再从那里点开。';
+  } else if (/Android/i.test(navigator.userAgent)) {
+    sheetSteps.innerHTML = `
+      <li>下拉通知栏，点刚下载的那个文件</li>
+      <li>选择用「日历」打开</li>
+      <li>点「全部添加」</li>`;
+    sheetNote.textContent = '通知栏清掉了也没关系，去「文件管理 → Download」里找。';
+  } else {
+    sheetSteps.innerHTML = `
+      <li>双击下载的 <code>${esc(filename)}</code></li>
+      <li>选择用日历应用打开，确认导入</li>`;
+    sheetNote.textContent = '';
+  }
+
+  const canShare = typeof navigator.canShare === 'function'
+    && lastFile
+    && navigator.canShare({ files: [lastFile] });
+  sheetShare.hidden = !canShare;
   sheet.hidden = false;
 }
+
+sheetShare.addEventListener('click', async () => {
+  if (!lastFile) return;
+  try {
+    await navigator.share({ files: [lastFile], title: '生日提醒日历' });
+    sheet.hidden = true;
+  } catch {
+    /* 用户取消了分享，不用管 */
+  }
+});
 
 document.getElementById('sheetClose').addEventListener('click', () => {
   sheet.hidden = true;
