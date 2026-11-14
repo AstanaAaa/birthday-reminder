@@ -24,6 +24,8 @@ captures/
 *.jks
 *.p12
 signing.properties
+# 签名密码，和密钥库同等重要
+keystore.properties
 
 # ===== 系统杂项 =====
 .DS_Store

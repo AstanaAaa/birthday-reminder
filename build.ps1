@@ -40,6 +40,12 @@ if (Test-Path $localTmp) {
     $env:TEMP = $localTmp
 }
 
+# Gradle 默认把依赖缓存放用户目录，这里不可写时改用工作区目录
+$localGradleHome = 'D:\XD\tools\gradle-home'
+if (-not $env:GRADLE_USER_HOME -and (Test-Path $localGradleHome)) {
+    $env:GRADLE_USER_HOME = $localGradleHome
+}
+
 # ---- 4. 编译：优先用项目自带的 wrapper ----
 $gradlew = Join-Path $root 'gradlew.bat'
 if (-not (Test-Path $gradlew)) {
